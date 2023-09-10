@@ -28,7 +28,7 @@ if ($job.ScheduleEnabled -ne $true){
 $status = $job.LastResult
 
 
-
+# Check if the last status is failed
 if ($status -eq "Failed"){
 	
     Write-Host "CRITICAL! SureBackup job $name failed during last runtime"
@@ -36,13 +36,19 @@ if ($status -eq "Failed"){
 
 }
 
-
-
-# Check Backup Status
-if ($status -ne "Success"){
-
-	Write-Host "WARNING! Job $name is in WARNING State."
+# Check if the last status is failed
+if ($status -eq "Warning"){
+	
+    Write-Host "WARNING! SureBackup job $name failed during last runtime"
 	exit 1
+
+}
+
+# Check if the last status is failed
+if ($status -eq "Running"){
+	
+    Write-Host "OK! SureBackup job $name is currently running"
+	exit 0
 
 }
 	
